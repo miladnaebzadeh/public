@@ -1,0 +1,18 @@
+- name: install httpd
+ yum:
+ name: http-{{ httpd_version }}
+ state: present
+ update_cache: yes
+ disable_gpg_check: yes
+ enablerepo: httpd
+ notify: restart httpd
+- name: configure httpd
+ template:
+ src: t1.conf
+ dest: /etc/t1.conf
+ notify: restart httpd
+- name: start httpd
+ service:
+ name: httpd
+ state: started
+ enabled: yes
